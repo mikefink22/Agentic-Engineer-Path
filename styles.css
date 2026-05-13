@@ -1,0 +1,147 @@
+:root {
+  --bg-dark: #0b0f1a;
+  --panel-dark: #111827;
+  --accent-sky: #0ea5e9;
+  --accent-emerald: #10b981;
+  --accent-aws: #ff9900;
+}
+
+/* ─── Base ─────────────────────────────────────────── */
+body {
+  background-color: var(--bg-dark);
+  color: #f1f5f9;
+  font-family: "Inter", sans-serif;
+  overflow: hidden; /* solo para el layout flex h-screen */
+}
+
+/* ─── Sidebar ───────────────────────────────────────── */
+.sidebar {
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Nav buttons ───────────────────────────────────── */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: #94a3b8;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+  text-align: left;
+}
+.nav-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+}
+.nav-btn.active {
+  color: white;
+  background: var(--accent-sky);
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.25);
+}
+
+/* ─── Cards ─────────────────────────────────────────── */
+.glass-card {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.25rem;
+}
+
+/* ─── Phase cards ───────────────────────────────────── */
+.phase-card {
+  transition: transform 0.2s ease;
+}
+.phase-card:hover {
+  transform: translateX(4px);
+}
+/* Colores por fase via clase de borde */
+.border-l-sky-500   { border-left: 4px solid #0ea5e9; }
+.border-l-emerald-500 { border-left: 4px solid #10b981; }
+.border-l-red-500   { border-left: 4px solid #ef4444; }
+.border-l-orange-500 { border-left: 4px solid #f97316; }
+.border-l-purple-500 { border-left: 4px solid #a855f7; }
+
+/* ─── Inputs ─────────────────────────────────────────── */
+input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--accent-emerald);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+.tab-content {
+  animation: fadeIn 0.35s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Resource links ─────────────────────────────────── */
+.resource-link {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 0.18s;
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+}
+.resource-link:hover {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.4);
+  transform: translateX(4px);
+  color: white;
+}
+
+/* ─── Modal ──────────────────────────────────────────── */
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Dashboard: seniority glow ──────────────────────── */
+.status-glow {
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.2), 0 4px 24px rgba(14, 165, 233, 0.08);
+}
+
+/* ─── Cert badge tag ─────────────────────────────────── */
+.cert-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.cert-tag-free {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.cert-tag-paid {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+/* ─── Progress bar (global) ──────────────────────────── */
+#global-bar {
+  transition: width 0.6s ease;
+}

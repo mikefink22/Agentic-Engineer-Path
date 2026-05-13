@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic Engineer - Roadmap Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="flex h-screen">
+
+    <!-- ═══ SIDEBAR ═════════════════════════════════════════ -->
+    <aside class="sidebar w-72 flex flex-col p-6 hidden lg:flex shrink-0">
+      <div class="mb-10 px-2">
+        <h1 class="text-2xl font-black italic tracking-tighter text-sky-400">
+          VALI<span class="text-white font-bold not-italic">DATOR</span>
+        </h1>
+        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-1">Agentic Engineer Pro</p>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto pr-2 space-y-1">
+        <button onclick="showSection('dashboard')" id="btn-dashboard" class="nav-btn active">
+          <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+        </button>
+        <button onclick="showSection('roadmap')" id="btn-roadmap" class="nav-btn">
+          <i class="fa-solid fa-route w-5"></i> Roadmap Técnico
+        </button>
+        <button onclick="showSection('portfolio')" id="btn-portfolio" class="nav-btn">
+          <i class="fa-solid fa-briefcase w-5"></i> Portafolio
+        </button>
+        <button onclick="showSection('resources')" id="btn-resources" class="nav-btn">
+          <i class="fa-solid fa-book w-5"></i> Recursos
+        </button>
+        <button onclick="showSection('certs')" id="btn-certs" class="nav-btn">
+          <i class="fa-solid fa-certificate w-5"></i> Certificaciones
+        </button>
+      </nav>
+
+      <div class="mt-auto pt-6 border-t border-slate-800">
+        <div class="flex justify-between text-[10px] text-slate-400 font-bold uppercase mb-2">
+          <span>Progreso Total</span>
+          <span id="global-perc">0%</span>
+        </div>
+        <div class="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+          <div id="global-bar" class="h-full bg-emerald-500" style="width: 0%"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ════════════════════════════════════ -->
+    <main class="flex-1 overflow-y-auto p-6 lg:p-12">
+      <div class="max-w-5xl mx-auto">
+
+        <!-- ─── DASHBOARD ─────────────────────────────────── -->
+        <section id="sec-dashboard" class="tab-content space-y-8">
+          <div class="flex justify-between items-end flex-wrap gap-3">
+            <div>
+              <h2 class="text-4xl font-black text-white leading-tight">Estado de Perfil</h2>
+              <p class="text-slate-400 mt-2 text-lg">Integración Tecnicatura + AWS + Rol Validador</p>
+            </div>
+            <div id="aws-cert-badge" class="bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-700 hidden md:block">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Estatus AWS</span>
+              <span id="aws-cert-label" class="text-sm font-bold text-white">Preparando Cloud Practitioner</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Radar -->
+            <div class="lg:col-span-2 glass-card p-8 min-h-[400px]">
+              <h3 class="text-lg font-bold text-slate-300 mb-6 flex items-center gap-2">
+                <i class="fa-solid fa-bullseye text-sky-500"></i> Análisis de Competencias
+              </h3>
+              <div class="h-[350px]">
+                <canvas id="radarChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Panel dinámico -->
+            <div class="space-y-4">
+              <!-- Seniority -->
+              <div id="profile-status-card" class="glass-card p-6 border-l-4 border-sky-500 status-glow transition-all duration-500">
+                <h4 class="text-sky-500 font-bold text-[10px] uppercase tracking-widest mb-1">Nivel de Seniority</h4>
+                <div class="flex items-baseline gap-2 mb-3">
+                  <span id="seniority-label" class="text-2xl font-black text-white">Junior Auditor</span>
+                  <span id="seniority-perc" class="text-xs font-bold text-sky-400">0%</span>
+                </div>
+                <div class="h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="seniority-bar" class="h-full bg-sky-500 transition-all duration-700" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- Cloud mindset -->
+              <div class="glass-card p-6 border-l-4 border-orange-500">
+                <h4 class="text-orange-500 font-bold text-[10px] uppercase tracking-widest mb-2">Mentalidad Cloud</h4>
+                <p id="cloud-mindset-text" class="text-sm text-slate-300 leading-snug">Dominando fundamentos de infraestructura básica.</p>
+              </div>
+
+              <!-- Arch tags -->
+              <div class="glass-card p-6 border-l-4 border-emerald-500 bg-emerald-500/5">
+                <h4 class="text-emerald-500 font-bold text-[10px] uppercase tracking-widest mb-2">Validación de Arquitectura</h4>
+                <div class="flex flex-wrap gap-2" id="arch-tags">
+                  <span class="px-2 py-0.5 bg-slate-800 rounded text-[10px] text-slate-400 border border-slate-700">SOLID</span>
+                  <span class="px-2 py-0.5 bg-slate-800 rounded text-[10px] text-slate-400 border border-slate-700">DRY</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── ROADMAP ────────────────────────────────────── -->
+        <section id="sec-roadmap" class="tab-content hidden space-y-6">
+          <h2 class="text-3xl font-black text-white uppercase tracking-tight">Capacitación por Fases</h2>
+
+          <div class="grid grid-cols-1 gap-4">
+
+            <!-- Fase 1 -->
+            <div class="glass-card phase-card p-6 border-l-sky-500">
+              <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                <h3 class="text-xl font-bold text-white">
+                  <span class="text-sky-500 mr-2 text-sm">F1.</span> Ingeniería del Código & Memoria
+                </h3>
+                <span class="text-[10px] bg-sky-500/10 text-sky-400 px-2 py-1 rounded font-bold">ALTA PRIORIDAD</span>
+              </div>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f1_1" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Gestión de Memoria (Stack vs Heap)</span>
+                      <span class="text-[11px] text-slate-500">Value Types, Reference Types, boxing/unboxing, GC impact.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f1_2" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Inmutabilidad (Records & Init-only)</span>
+                      <span class="text-[11px] text-slate-500">Mitigar efectos secundarios en ejecución concurrente.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f1_3" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Principios SOLID aplicados</span>
+                      <span class="text-[11px] text-slate-500">SRP, OCP, LSP, ISP, DIP — auditados en código IA.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f1_4" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Patrones de Diseño (Factory, Strategy, Observer)</span>
+                      <span class="text-[11px] text-slate-500">Validar que IA resuelva con patrones, no soluciones ad-hoc.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f1_5" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Inyección de Dependencias (DI)</span>
+                      <span class="text-[11px] text-slate-500">Desacoplar módulos mediante abstracciones en .NET.</span>
+                    </div>
+                  </label>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 text-[11px] text-slate-400 leading-relaxed space-y-2">
+                  <p><b class="text-sky-400">Objetivo:</b> Auditar código IA detectando fallos de rendimiento, God Classes y efectos secundarios.</p>
+                  <p><b class="text-sky-400">Proyecto:</b> Refactorizar TodoStock con Records, Repository pattern y FluentValidation.</p>
+                  <p><b class="text-sky-400">Pregunta clave:</b> "¿Si el negocio cambia un 20%, cuántos componentes se rompen?"</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fase 2 -->
+            <div class="glass-card phase-card p-6 border-l-emerald-500">
+              <h3 class="text-xl font-bold text-white mb-4">
+                <span class="text-emerald-500 mr-2 text-sm">F2.</span> Arquitectura & Spec-Driven Development
+              </h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f2_1" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Clean Architecture en .NET (4 capas)</span>
+                      <span class="text-[11px] text-slate-500">Domain → Application → Infrastructure → Presentation.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f2_2" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Arquitectura Hexagonal / Puertos & Adaptadores</span>
+                      <span class="text-[11px] text-slate-500">Aislar lógica de negocio de agentes externos.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f2_3" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Patrón Mediator (MediatR)</span>
+                      <span class="text-[11px] text-slate-500">Controladores ligeros y casos de uso desacoplados.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f2_4" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Design by Contract (Pre/Post condiciones)</span>
+                      <span class="text-[11px] text-slate-500">Forzar a la IA a cumplir contratos formales.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f2_5" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Spec-Driven Development (Specify → Plan → Tasks → Implement)</span>
+                      <span class="text-[11px] text-slate-500">Especificación como fuente única de verdad ejecutable.</span>
+                    </div>
+                  </label>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-2">
+                  <p><b class="text-emerald-400">Proyecto:</b> ClinicFlow Backend con Clean Architecture, EF Core y migraciones automáticas.</p>
+                  <p><b class="text-emerald-400">Validación:</b> Auditoría OWASP sobre autenticación y datos sensibles de pacientes.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fase 3 — MCP (nueva) -->
+            <div class="glass-card phase-card p-6 border-l-purple-500">
+              <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                <h3 class="text-xl font-bold text-white">
+                  <span class="text-purple-400 mr-2 text-sm">F3.</span> Integración de Agentes & MCP
+                </h3>
+                <span class="text-[10px] bg-purple-500/10 text-purple-400 px-2 py-1 rounded font-bold">2025 · NUEVO</span>
+              </div>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f3_1" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Model Context Protocol (MCP) — conceptos</span>
+                      <span class="text-[11px] text-slate-500">Tools, Resources y Prompts como primitivas del protocolo.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f3_2" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Servidor MCP en Python (FastMCP + uv)</span>
+                      <span class="text-[11px] text-slate-500">Exponer herramientas y conectar con APIs externas.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f3_3" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Orquestador Agéntico de Logística</span>
+                      <span class="text-[11px] text-slate-500">Conectar ClinicFlow/TodoStock con lenguaje natural vía MCP.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f3_4" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Guardrails de seguridad en agentes</span>
+                      <span class="text-[11px] text-slate-500">Firma digital humana para acciones irreversibles del agente.</span>
+                    </div>
+                  </label>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-2">
+                  <p><b class="text-purple-400">Contexto:</b> MCP es el "USB-C para agentes" — conexiones estandarizadas sin integración custom por API.</p>
+                  <p><b class="text-purple-400">Proyecto:</b> Servidor MCP en Python que permite consultar stock y generar alertas en lenguaje natural.</p>
+                  <p><b class="text-purple-400">Recurso:</b> <a href="https://modelcontextprotocol.io/docs/develop/build-server" target="_blank" class="text-sky-400 hover:underline">modelcontextprotocol.io</a></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fase 4 -->
+            <div class="glass-card phase-card p-6 border-l-red-500">
+              <h3 class="text-xl font-bold text-white mb-4">
+                <span class="text-red-500 mr-2 text-sm">F4.</span> Seguridad & Análisis OWASP
+              </h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f4_1" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">A01 — Broken Access Control</span>
+                      <span class="text-[11px] text-slate-500">Control centralizado y principio de menor privilegio.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f4_2" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">A05 — Injection (SQL + Prompt Injection)</span>
+                      <span class="text-[11px] text-slate-500">Prevenir que atacantes manipulen el contexto del modelo.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f4_3" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">A03 — Supply Chain (OWASP Dependency-Check)</span>
+                      <span class="text-[11px] text-slate-500">Verificar integridad de librerías propuestas por IA.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f4_4" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">A10 — Mishandling Exceptions</span>
+                      <span class="text-[11px] text-slate-500">Evitar mensajes de error que expongan el stack técnico.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f4_5" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Seguridad en Infraestructura (VPC / IAM)</span>
+                      <span class="text-[11px] text-slate-500">Auditar configuración de red y permisos en AWS.</span>
+                    </div>
+                  </label>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-2">
+                  <p><b class="text-red-400">Skill:</b> Auditar código IA contra OWASP Top 10 2025 antes de mergearlo a main.</p>
+                  <p><b class="text-red-400">Tool:</b> <a href="https://owasp.org/www-project-dependency-check/" target="_blank" class="text-sky-400 hover:underline">OWASP Dependency-Check</a> en pipeline CI/CD.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fase 5 -->
+            <div class="glass-card phase-card p-6 border-l-orange-500">
+              <h3 class="text-xl font-bold text-white mb-4">
+                <span class="text-orange-500 mr-2 text-sm">F5.</span> Infraestructura, Testing & Observabilidad
+              </h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f5_1" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Unit Testing con xUnit (C#) / pytest (Python)</span>
+                      <span class="text-[11px] text-slate-500">Suite de pruebas obligatoria antes de aceptar código IA.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f5_2" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Integration Testing & Mocking</span>
+                      <span class="text-[11px] text-slate-500">Validar comportamiento combinado de módulos con dependencias emuladas.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f5_3" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">CI/CD con GitHub Actions</span>
+                      <span class="text-[11px] text-slate-500">Quality Gates: tests + linters en cada Pull Request.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f5_4" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Chaos Engineering Local (Docker)</span>
+                      <span class="text-[11px] text-slate-500">Simular caída de BD / latencia de red. Documentar resiliencia.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f5_5" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Dockerfile Multi-stage + Logging Estructurado (JSON)</span>
+                      <span class="text-[11px] text-slate-500">Artefactos de runtime seguros y telemetría distribuida.</span>
+                    </div>
+                  </label>
+                  <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="f5_6" onchange="syncProgress()" class="mt-0.5" />
+                    <div>
+                      <span class="text-sm text-slate-300 font-medium block">Despliegue en AWS (EC2 / RDS / Lambda)</span>
+                      <span class="text-[11px] text-slate-500">Operar sistemas empresariales escalables en producción.</span>
+                    </div>
+                  </label>
+                </div>
+                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800 text-[11px] text-slate-400 space-y-2">
+                  <p><b class="text-orange-400">Meta:</b> Código que no solo funciona, sino que se puede operar y monitorear en producción.</p>
+                  <p><b class="text-orange-400">Recurso:</b> <a href="https://www.youtube.com/@TechworldwithNana" target="_blank" class="text-sky-400 hover:underline">TechWorld with Nana</a> — Docker y GitHub Actions.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ─── PORTFOLIO ──────────────────────────────────── -->
+        <section id="sec-portfolio" class="tab-content hidden space-y-8">
+          <header>
+            <h2 class="text-3xl font-black text-white uppercase italic tracking-tighter">Estrategia de Portafolio Senior</h2>
+            <p class="text-slate-500 text-sm mt-1">Simular 2 años de experiencia mediante el "Estrés de Proyectos".</p>
+          </header>
+
+          <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- GitHub hygiene -->
+            <div class="glass-card p-6 border-t-2 border-sky-500">
+              <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-brands fa-github text-sky-500"></i> Perfil de GitHub Profesional
+              </h3>
+              <div class="space-y-4">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p1" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Crear repositorio "profile" (nombre/nombre)</span>
+                    <p class="text-[11px] text-slate-500">Biografía técnica clara, stack con iconos, enlaces a mejores proyectos. Sin términos como "junior".</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p2" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Archivar proyectos de tutorial</span>
+                    <p class="text-[11px] text-slate-500">Ocultar calculadoras y Hello World. Mostrar solo versiones refactorizadas profesionalmente.</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p3" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Curaduría de 4–6 proyectos (Pinned)</span>
+                    <p class="text-[11px] text-slate-500">Una API compleja, un script de automatización, una implementación arquitectónica.</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p4" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Implementar Conventional Commits</span>
+                    <p class="text-[11px] text-slate-500"><code class="text-sky-400 text-[10px]">feat:</code>, <code class="text-sky-400 text-[10px]">fix:</code>, <code class="text-sky-400 text-[10px]">refactor:</code>, <code class="text-sky-400 text-[10px]">docs:</code> en todos los repos activos.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- README anatomy -->
+            <div class="glass-card p-6 border-t-2 border-emerald-500">
+              <h3 class="font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-file-code text-emerald-500"></i> Anatomía del README Profesional
+              </h3>
+              <div class="space-y-4">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p5" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Título, problema resuelto y tecnologías</span>
+                    <p class="text-[11px] text-slate-500">"¿Qué problema resuelve y por qué se construyó?" — primera sección obligatoria.</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p6" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Capturas / GIFs de funcionamiento</span>
+                    <p class="text-[11px] text-slate-500">Usar Licecap o similar. Los reclutadores ven el README antes que el código.</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p7" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Guía de instalación y decisiones de arquitectura</span>
+                    <p class="text-[11px] text-slate-500">"Se aplicó Clean Architecture para facilitar las pruebas unitarias."</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Methodologies -->
+            <div class="glass-card p-6 border-t-2 border-red-500 bg-red-500/5">
+              <h3 class="font-bold text-red-400 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-fire text-red-500"></i> Metodologías Destructivas
+              </h3>
+              <div class="space-y-4">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p8" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Chaos Engineering Local</span>
+                    <p class="text-[11px] text-slate-500">Documentar qué pasa al tirar la BD o limitar ancho de banda en Docker. ¿El código falla con gracia?</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p9" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Análisis de Deuda Técnica</span>
+                    <p class="text-[11px] text-slate-500">README con análisis: "¿Qué pasa si el negocio cambia un 20%?"</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Auditoría cruzada -->
+            <div class="glass-card p-6 border-t-2 border-orange-500">
+              <h3 class="font-bold text-white mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-code-compare text-orange-500"></i> Auditoría Cruzada & Marca Personal
+              </h3>
+              <div class="space-y-4">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p10" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Analizar proyectos Open Source consolidados</span>
+                    <p class="text-[11px] text-slate-500">Comparar patrones empresariales reales vs soluciones simplificadas de IA.</p>
+                  </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" id="p11" onchange="syncProgress()" class="mt-1" />
+                  <div>
+                    <span class="font-bold text-sm block">Documentar comparación en blog / LinkedIn</span>
+                    <p class="text-[11px] text-slate-500">La consistencia en contribuciones (gráfico verde) señala crecimiento activo.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ─── RESOURCES ──────────────────────────────────── -->
+        <section id="sec-resources" class="tab-content hidden space-y-8">
+          <header>
+            <h2 class="text-3xl font-black text-white uppercase tracking-tight">Centro de Recursos</h2>
+            <p class="text-slate-400 text-sm">Canales, plataformas y herramientas validadas para el rol Validador.</p>
+          </header>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- AWS -->
+            <div class="glass-card p-6 border-t-4 border-orange-500">
+              <div class="flex items-center gap-3 mb-5">
+                <i class="fa-solid fa-cloud text-2xl text-orange-500"></i>
+                <h4 class="font-bold text-white">AWS & Cloud</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://explore.skillbuilder.aws/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-graduation-cap mr-3 opacity-50"></i> AWS Skill Builder (gratis)
+                </a>
+                <a href="https://aws.amazon.com/es/architecture/well-architected/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-building mr-3 opacity-50"></i> Well-Architected Framework
+                </a>
+                <a href="https://aws.amazon.com/es/certification/certified-cloud-practitioner/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-certificate mr-3 opacity-50"></i> Guía Examen CLF-C02
+                </a>
+              </div>
+            </div>
+
+            <!-- .NET -->
+            <div class="glass-card p-6 border-t-4 border-sky-500">
+              <div class="flex items-center gap-3 mb-5">
+                <i class="fa-solid fa-code text-2xl text-sky-500"></i>
+                <h4 class="font-bold text-white">Dominio .NET / C#</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://www.youtube.com/@nickchapsas" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-youtube mr-3 text-red-500"></i> Nick Chapsas — Performance
+                </a>
+                <a href="https://www.youtube.com/@m_jovanovic" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-youtube mr-3 text-red-500"></i> Milan Jovanović — Arquitectura
+                </a>
+                <a href="https://www.youtube.com/watch?v=IqUM4gpHbC4" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-youtube mr-3 text-red-500"></i> Felipe Gavilán — Clean Arch
+                </a>
+                <a href="https://learn.microsoft.com/es-es/dotnet/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-book-open mr-3 opacity-50"></i> Microsoft Learn .NET
+                </a>
+              </div>
+            </div>
+
+            <!-- Seguridad -->
+            <div class="glass-card p-6 border-t-4 border-red-500">
+              <div class="flex items-center gap-3 mb-5">
+                <i class="fa-solid fa-shield-halved text-2xl text-red-500"></i>
+                <h4 class="font-bold text-white">Seguridad OWASP</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://owasp.org/www-project-top-ten/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-list-check mr-3 opacity-50"></i> OWASP Top 10 2025
+                </a>
+                <a href="https://owasp.org/www-project-dependency-check/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-box mr-3 opacity-50"></i> OWASP Dependency-Check
+                </a>
+                <a href="https://cwe.mitre.org/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-bug mr-3 opacity-50"></i> Mitre CWE Database
+                </a>
+              </div>
+            </div>
+
+            <!-- MCP & Agentes -->
+            <div class="glass-card p-6 border-t-4 border-purple-500">
+              <div class="flex items-center gap-3 mb-5">
+                <i class="fa-solid fa-robot text-2xl text-purple-400"></i>
+                <h4 class="font-bold text-white">MCP & Agentes</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://modelcontextprotocol.io/docs/develop/build-server" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-server mr-3 opacity-50"></i> Construir Servidor MCP
+                </a>
+                <a href="https://modelcontextprotocol.io/docs/develop/build-client" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-plug mr-3 opacity-50"></i> Construir Cliente MCP
+                </a>
+                <a href="https://developers.redhat.com/articles/2025/08/12/how-build-simple-agentic-ai-server-mcp" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-redhat mr-3 opacity-50"></i> Red Hat — Servidor Agéntico
+                </a>
+              </div>
+            </div>
+
+            <!-- Python & Data -->
+            <div class="glass-card p-6 border-t-4 border-emerald-500">
+              <div class="flex items-center gap-3 mb-5">
+                <i class="fa-brands fa-python text-2xl text-emerald-400"></i>
+                <h4 class="font-bold text-white">Python & Data</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://www.freecodecamp.org/espanol" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-graduation-cap mr-3 opacity-50"></i> freeCodeCamp (Python)
+                </a>
+                <a href="https://www.youtube.com/watch?v=hoWPZMJ03UA" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-youtube mr-3 text-red-500"></i> pytest Basics to Advanced
+                </a>
+                <a href="https://www.kaggle.com/learn" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-chart-line mr-3 opacity-50"></i> Kaggle Learn — Python, SQL, ML
+                </a>
+              </div>
+            </div>
+
+            <!-- DevOps -->
+            <div class="glass-card p-6 border-t-4 border-slate-400">
+              <div class="flex items-center gap-3 mb-5">
+                <i class="fa-solid fa-gears text-2xl text-slate-400"></i>
+                <h4 class="font-bold text-white">DevOps & CI/CD</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://www.youtube.com/@TechworldwithNana" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-youtube mr-3 text-red-500"></i> TechWorld with Nana
+                </a>
+                <a href="https://docs.github.com/actions" target="_blank" class="resource-link">
+                  <i class="fa-brands fa-github mr-3 opacity-50"></i> GitHub Actions Docs
+                </a>
+                <a href="https://chaostoolkit.org/deployment/local/docker/" target="_blank" class="resource-link">
+                  <i class="fa-solid fa-flask mr-3 opacity-50"></i> Chaos Toolkit + Docker
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ─── CERTIFICACIONES ────────────────────────────── -->
+        <section id="sec-certs" class="tab-content hidden space-y-8">
+          <header>
+            <h2 class="text-3xl font-black text-white uppercase tracking-tight">Certificaciones Estratégicas</h2>
+            <p class="text-slate-400 text-sm">Credenciales con mayor retorno para el perfil Agentic Engineer en 2025.</p>
+          </header>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- AWS CLF-C02 -->
+            <div class="glass-card p-6 border-l-4 border-orange-500">
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-white text-base">AWS Cloud Practitioner <span class="text-orange-400">(CLF-C02)</span></h3>
+                <span class="cert-tag cert-tag-paid">Pago</span>
+              </div>
+              <p class="text-[12px] text-slate-400 mb-3 leading-relaxed">La certificación más estratégica para el perfil. Valida conocimiento de IAM, VPC, S3, EC2, Lambda y el Well-Architected Framework.</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">~$100 USD</span>
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">Preparación: 40–60h</span>
+              </div>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="c1" onchange="syncProgress()" />
+                <span class="text-sm text-slate-300">Aprobado ✓</span>
+              </label>
+              <a href="https://explore.skillbuilder.aws/" target="_blank" class="mt-3 resource-link text-[11px]">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-2 opacity-50"></i> Preparar en AWS Skill Builder
+              </a>
+            </div>
+
+            <!-- Microsoft SC-900 -->
+            <div class="glass-card p-6 border-l-4 border-sky-500">
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-white text-base">Microsoft SC-900 <span class="text-sky-400">(Security Fundamentals)</span></h3>
+                <span class="cert-tag cert-tag-paid">Pago</span>
+              </div>
+              <p class="text-[12px] text-slate-400 mb-3 leading-relaxed">Valida conocimientos de seguridad, identidad y cumplimiento en entornos Microsoft/Azure. Complementa el perfil de validador técnico.</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">~$100 USD</span>
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">Preparación gratis en MS Learn</span>
+              </div>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="c2" onchange="syncProgress()" />
+                <span class="text-sm text-slate-300">Aprobado ✓</span>
+              </label>
+              <a href="https://learn.microsoft.com/es-es/credentials/certifications/security-compliance-and-identity-fundamentals/" target="_blank" class="mt-3 resource-link text-[11px]">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-2 opacity-50"></i> Preparar en Microsoft Learn
+              </a>
+            </div>
+
+            <!-- Cisco Python Essentials -->
+            <div class="glass-card p-6 border-l-4 border-emerald-500">
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-white text-base">Cisco Python Essentials 1</h3>
+                <span class="cert-tag cert-tag-free">Gratis</span>
+              </div>
+              <p class="text-[12px] text-slate-400 mb-3 leading-relaxed">~75 horas. Base sólida de sintaxis y lógica en Python, fundamental para desarrollar servidores MCP y scripts de orquestación.</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">100% gratis</span>
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">~75 horas</span>
+              </div>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="c3" onchange="syncProgress()" />
+                <span class="text-sm text-slate-300">Completado ✓</span>
+              </label>
+              <a href="https://www.netacad.com/courses/python-essentials-1" target="_blank" class="mt-3 resource-link text-[11px]">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-2 opacity-50"></i> Ver en NetAcad
+              </a>
+            </div>
+
+            <!-- HackerRank -->
+            <div class="glass-card p-6 border-l-4 border-slate-400">
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-white text-base">HackerRank Skills Certifications</h3>
+                <span class="cert-tag cert-tag-free">Gratis</span>
+              </div>
+              <p class="text-[12px] text-slate-400 mb-3 leading-relaxed">Evaluaciones de C# Basic y Python Basic respetadas por reclutadores técnicos como prueba inmediata de competencia.</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">100% gratis</span>
+                <span class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400">Reclutadores valoran</span>
+              </div>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="c4" onchange="syncProgress()" />
+                <span class="text-sm text-slate-300">Completado C# + Python ✓</span>
+              </label>
+              <a href="https://www.hackerrank.com/skills-verification" target="_blank" class="mt-3 resource-link text-[11px]">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-2 opacity-50"></i> Hacer el test
+              </a>
+            </div>
+
+            <!-- Kaggle -->
+            <div class="glass-card p-6 border-l-4 border-purple-500 md:col-span-2">
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-white text-base">Kaggle Learn Certificates</h3>
+                <span class="cert-tag cert-tag-free">Gratis</span>
+              </div>
+              <p class="text-[12px] text-slate-400 mb-3 leading-relaxed">Micro-cursos de 2–5 horas en Python, SQL y Machine Learning. Muy respetados por su enfoque práctico. Ideales para complementar el perfil con análisis de datos.</p>
+              <div class="grid md:grid-cols-3 gap-3 mt-4">
+                <label class="flex items-center gap-3 cursor-pointer bg-slate-800/50 p-3 rounded-lg">
+                  <input type="checkbox" id="c5" onchange="syncProgress()" />
+                  <span class="text-sm text-slate-300">Python</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer bg-slate-800/50 p-3 rounded-lg">
+                  <input type="checkbox" id="c6" onchange="syncProgress()" />
+                  <span class="text-sm text-slate-300">SQL (Intro + Advanced)</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer bg-slate-800/50 p-3 rounded-lg">
+                  <input type="checkbox" id="c7" onchange="syncProgress()" />
+                  <span class="text-sm text-slate-300">Intro to Machine Learning</span>
+                </label>
+              </div>
+              <a href="https://www.kaggle.com/learn" target="_blank" class="mt-4 resource-link text-[11px]">
+                <i class="fa-solid fa-arrow-up-right-from-square mr-2 opacity-50"></i> Explorar Kaggle Learn
+              </a>
+            </div>
+
+          </div>
+        </section>
+
+      </div><!-- /max-w -->
+    </main>
+
+    <!-- ═══ MODAL ════════════════════════════════════════════ -->
+    <div id="modal" onclick="closeModal()">
+      <div class="glass-card max-w-lg w-full p-8 mx-4" onclick="event.stopPropagation()">
+        <div id="modal-body" class="space-y-4"></div>
+        <button onclick="closeModal()" class="w-full mt-6 py-3 bg-slate-800 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-slate-700 transition-colors">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
